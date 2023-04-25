@@ -1,0 +1,13 @@
+.item {
+  color: black;
+  display: flex;
+}
+
+.item img {
+  width: 20px;
+  height: 20px;
+}
+
+.like {
+  margin-right: 20px;
+}

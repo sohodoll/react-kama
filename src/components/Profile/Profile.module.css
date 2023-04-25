@@ -1,0 +1,13 @@
+.content {
+  grid-area: c;
+  background-color: #fffffe;
+  border-radius: 10px;
+}
+
+.item {
+  color: #ef4565;
+}
+
+.profileIcon {
+  width: 30px;
+}
