@@ -1,3 +1,5 @@
+import { renderEntireTree } from '../renders';
+
 export let dialogsData = [
   { id: 1, name: 'Dimych' },
   { id: 2, name: 'Andrew' },
@@ -32,6 +34,7 @@ export let friendsData = [
 export let state = {
   profilePage: {
     posts: postsData,
+    newPostText: 'tempas',
   },
   dialogsPage: {
     dialogs: dialogsData,
@@ -42,12 +45,19 @@ export let state = {
   },
 };
 
-export const addPost = (postMessage) => {
+export const handleInputChange = (tempText) => {
+  state.profilePage.newPostText = tempText;
+  renderEntireTree(state);
+};
+
+export const addPost = () => {
   let newPost = {
     id: 5,
-    message: postMessage,
+    message: state.profilePage.newPostText,
     likesCount: 0,
   };
 
   state.profilePage.posts.push(newPost);
+  handleInputChange('');
+  renderEntireTree(state);
 };
