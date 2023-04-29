@@ -3,8 +3,7 @@ import s from './Navbar.module.css';
 import { Link } from 'react-router-dom';
 
 const Navbar = (props) => {
-  const friends = props.state.friends.map((friend) => <div>*{friend.name}</div>);
-  console.log(props.state.friends);
+  const friends = props.state.friends.map((friend) => <div key={friend.id}>*{friend.name}</div>);
   return (
     <>
       <nav className={s.nav}>

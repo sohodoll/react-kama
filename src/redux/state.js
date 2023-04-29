@@ -41,3 +41,13 @@ export let state = {
     friends: friendsData,
   },
 };
+
+export const addPost = (postMessage) => {
+  let newPost = {
+    id: 5,
+    message: postMessage,
+    likesCount: 0,
+  };
+
+  state.profilePage.posts.push(newPost);
+};
