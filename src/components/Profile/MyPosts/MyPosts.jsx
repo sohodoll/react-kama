@@ -21,7 +21,7 @@ const MyPosts = (props) => {
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea ref={newPostElement} value={props.tempPost} onChange={handleInput} />
+          <textarea ref={newPostElement} value={props.newPostText} onChange={handleInput} />
         </div>
         <div>
           <button onClick={addPost}>Add post</button>
