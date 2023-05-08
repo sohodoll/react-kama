@@ -1,13 +1,6 @@
-import { renderEntireTree } from '../renders';
-
-export let dialogsData = [
-  { id: 1, name: 'Dimych' },
-  { id: 2, name: 'Andrew' },
-  { id: 3, name: 'Sveta' },
-  { id: 4, name: 'Sasha' },
-  { id: 5, name: 'Viktor' },
-  { id: 6, name: 'Valera' },
-];
+import { dialogsReducer } from './dialogsReducer';
+import { profileReducer } from './profileReducer';
+import { sidebarReducer } from './sidebarReducer';
 
 export let messagesData = [
   { id: 1, message: 'Hi' },
@@ -31,33 +24,43 @@ export let friendsData = [
   { id: 3, name: 'Sveta' },
 ];
 
-export let state = {
-  profilePage: {
-    posts: postsData,
-    newPostText: 'tempas',
-  },
-  dialogsPage: {
-    dialogs: dialogsData,
-    messages: messagesData,
-  },
-  sidebar: {
-    friends: friendsData,
-  },
-};
+export let dialogsData = [
+  { id: 1, name: 'Dimych' },
+  { id: 2, name: 'Andrew' },
+  { id: 3, name: 'Sveta' },
+  { id: 4, name: 'Sasha' },
+  { id: 5, name: 'Viktor' },
+  { id: 6, name: 'Valera' },
+];
 
-export const handleInputChange = (tempText) => {
-  state.profilePage.newPostText = tempText;
-  renderEntireTree(state);
-};
+export let store = {
+  _state: {
+    profilePage: {
+      posts: postsData,
+      newPostText: 'tempas',
+    },
+    dialogsPage: {
+      dialogs: dialogsData,
+      messages: messagesData,
+      newMessageBody: '',
+    },
+    sidebar: {
+      friends: friendsData,
+    },
+  },
+  _callSubscriber() {},
 
-export const addPost = () => {
-  let newPost = {
-    id: 5,
-    message: state.profilePage.newPostText,
-    likesCount: 0,
-  };
+  getState() {
+    return this._state;
+  },
+  subscribe(observer) {
+    this.callSubscriber = observer;
+  },
 
-  state.profilePage.posts.push(newPost);
-  handleInputChange('');
-  renderEntireTree(state);
+  dispatch(action) {
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    this._state.sidebar = sidebarReducer(this._state.sidebar);
+    this.callSubscriber(this.getState());
+  },
 };
