@@ -4,7 +4,7 @@ import s from './Header.module.css';
 const Header = () => {
   return (
     <header className={s.header}>
-      <img src='https://ru-designhelp.livejournal.com/favicon.ico' />
+      <img src='https://ru-designhelp.livejournal.com/favicon.ico' alt='sad' />
     </header>
   );
 };

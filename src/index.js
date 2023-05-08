@@ -1,4 +1,4 @@
-import { store } from './redux/state';
+import { store } from './redux/reduxStore';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -19,4 +19,6 @@ export let renderEntireTree = (state) => {
 
 renderEntireTree(store.getState());
 
-store.subscribe(renderEntireTree);
+store.subscribe(() => {
+  renderEntireTree(store.getState());
+});
