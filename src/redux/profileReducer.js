@@ -19,27 +19,34 @@ export let friendsData = [
 export const profileReducer = (
   state = {
     posts: postsData,
-    newPostText: 'tempas',
+    newPostText: 'Write something!',
   },
   action
 ) => {
-  const stateCopy = { ...state };
-  stateCopy.posts = [...state.posts];
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST: {
       let newPost = {
         id: 5,
         message: state.newPostText,
         likesCount: 0,
       };
-      stateCopy.posts.push(newPost);
-      stateCopy.newPostText = '';
-      return stateCopy;
-    case UPDATE_MESSAGE:
-      stateCopy.newPostText = action.newPostText;
-      return stateCopy;
+
+      return {
+        ...state,
+        posts: [...state.posts, newPost],
+        newPostText: '',
+      };
+    }
+
+    case UPDATE_MESSAGE: {
+      return {
+        ...state,
+        newPostText: action.newPostText,
+      };
+    }
+
     default:
-      return stateCopy;
+      return state;
   }
 };
 
