@@ -5,3 +5,7 @@
 .selected {
   color: red;
 }
+
+.loading {
+  width: 20px;
+}

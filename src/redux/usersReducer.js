@@ -3,13 +3,14 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-// const URL = 'https://images.thevoicemag.ru/upload/img_cache/522/522db8cc3ceff99287a983d9977b4980_ce_2111x1408x0x165_cropped_666x444.jpg';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 const initialState = {
   users: [],
   pageSize: 5,
   totalUsersCount: 0,
   currentPage: 4,
+  isFetching: false,
 };
 
 export const usersReducer = (state = initialState, action) => {
@@ -60,6 +61,13 @@ export const usersReducer = (state = initialState, action) => {
       };
     }
 
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching,
+      };
+    }
+
     case SET_TOTAL_USERS_COUNT: {
       return {
         ...state,
@@ -73,8 +81,9 @@ export const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followAC = (userID) => ({ type: FOLLOW, userID });
-export const unfollowAC = (userID) => ({ type: UNFOLLOW, userID });
-export const setUsersAC = (users) => ({ type: SET_USERS, users });
-export const setCurrentPageAC = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage });
-export const setTotalUsersCountAc = (total) => ({ type: SET_TOTAL_USERS_COUNT, total });
+export const follow = (userID) => ({ type: FOLLOW, userID });
+export const unfollow = (userID) => ({ type: UNFOLLOW, userID });
+export const setUsers = (users) => ({ type: SET_USERS, users });
+export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage });
+export const setTotalUsersCount = (total) => ({ type: SET_TOTAL_USERS_COUNT, total });
+export const setIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });

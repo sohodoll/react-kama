@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styles from './styles.module.css';
 const URL = 'https://images.thevoicemag.ru/upload/img_cache/522/522db8cc3ceff99287a983d9977b4980_ce_2111x1408x0x165_cropped_666x444.jpg';
 
@@ -27,7 +28,9 @@ export const Users = (props) => {
         <div>
           <span>
             <div>
-              <img className={styles.avatar} src={user.photos.small ? user.photos.small : URL} alt='' />
+              <NavLink to={'/profile/' + user.id}>
+                <img className={styles.avatar} src={user.photos.small ? user.photos.small : URL} alt='' />
+              </NavLink>
             </div>
             <div>
               {user.followed ? (
