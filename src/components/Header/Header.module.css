@@ -3,8 +3,16 @@
   background-color: #90b4ce;
   border-radius: 10px;
   padding: 2px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .header img {
   width: 20px;
+  height: 20px;
+}
+
+.loginBlock {
+  display: flex;
 }

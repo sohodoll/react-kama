@@ -3,6 +3,7 @@ import { profileReducer } from './profileReducer';
 import { dialogsReducer } from './dialogsReducer';
 import { sidebarReducer } from './sidebarReducer';
 import { usersReducer } from './usersReducer';
+import { authReducer } from './authReducer';
 
 export let messagesData = [
   { id: 1, message: 'Hi' },
@@ -40,6 +41,9 @@ const reducers = combineReducers({
   dialogsPage: dialogsReducer,
   sidebar: sidebarReducer,
   usersPage: usersReducer,
+  auth: authReducer,
 });
 
 export const store = createStore(reducers);
+
+window.store = store;

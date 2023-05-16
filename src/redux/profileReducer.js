@@ -48,7 +48,6 @@ export const profileReducer = (
     }
 
     case SET_USER_PROFILE: {
-      debugger;
       return {
         ...state,
         profile: action.profile,

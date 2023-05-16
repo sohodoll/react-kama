@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.css';
+import axios from 'axios';
 const URL = 'https://images.thevoicemag.ru/upload/img_cache/522/522db8cc3ceff99287a983d9977b4980_ce_2111x1408x0x165_cropped_666x444.jpg';
 
 export const Users = (props) => {
@@ -36,7 +37,18 @@ export const Users = (props) => {
               {user.followed ? (
                 <button
                   onClick={() => {
-                    props.unfollow(user.id);
+                    axios
+                      .delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
+                        withCredentials: true,
+                        headers: {
+                          'API-KEY': '79d82f0b-b654-4c8d-b40c-bf592e72e276',
+                        },
+                      })
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.unfollow(user.id);
+                        }
+                      });
                   }}
                 >
                   Unfollow
@@ -44,7 +56,22 @@ export const Users = (props) => {
               ) : (
                 <button
                   onClick={() => {
-                    props.follow(user.id);
+                    axios
+                      .post(
+                        `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                        {},
+                        {
+                          withCredentials: true,
+                          headers: {
+                            'API-KEY': '79d82f0b-b654-4c8d-b40c-bf592e72e276',
+                          },
+                        }
+                      )
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.follow(user.id);
+                        }
+                      });
                   }}
                 >
                   Follow
