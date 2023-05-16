@@ -12,6 +12,9 @@ export const usersAPI = {
   getUsers: (page = 1, size = 10) => {
     return instance.get(`users?page=${page}&count=${size}`).then((response) => response.data);
   },
+  getUser: (userId = 2) => {
+    return instance.get(`profile/${userId}`).then((response) => response.data);
+  },
   unfollowUser: (id) => {
     return instance.delete(`follow/${id}`).then((response) => response.data);
   },
