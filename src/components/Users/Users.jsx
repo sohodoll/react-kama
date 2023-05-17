@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.css';
-import { usersAPI } from '../../api/api';
 const URL = 'https://images.thevoicemag.ru/upload/img_cache/522/522db8cc3ceff99287a983d9977b4980_ce_2111x1408x0x165_cropped_666x444.jpg';
 
 export const Users = (props) => {
@@ -36,24 +35,18 @@ export const Users = (props) => {
             <div>
               {user.followed ? (
                 <button
+                  disabled={props.followingInProgress.some((id) => id === user.id)}
                   onClick={() => {
-                    usersAPI.unfollowUser(user.id).then((data) => {
-                      if (data.resultCode === 0) {
-                        props.unfollow(user.id);
-                      }
-                    });
+                    props.unfollow(user.id);
                   }}
                 >
                   Unfollow
                 </button>
               ) : (
                 <button
+                  disabled={props.followingInProgress.some((id) => id === user.id)}
                   onClick={() => {
-                    usersAPI.followUser(user.id).then((data) => {
-                      if (data.resultCode === 0) {
-                        props.follow(user.id);
-                      }
-                    });
+                    props.follow(user.id);
                   }}
                 >
                   Follow

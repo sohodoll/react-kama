@@ -1,3 +1,5 @@
+import { usersAPI } from '../api/api';
+
 /* eslint-disable default-case */
 const ADD_POST = 'ADD-POST';
 const UPDATE_MESSAGE = 'UPDATE-NEW-POST-TEXT';
@@ -66,3 +68,13 @@ export const updateNewPostTextActionCreator = (text) => ({
   type: UPDATE_MESSAGE,
   newPostText: text,
 });
+
+export const getUserProfile = (userId) => (dispatch) => {
+  console.log(userId);
+  if (!userId) {
+    userId = 2;
+  }
+  usersAPI.getUser(userId).then((data) => {
+    dispatch(setUserProfile(data));
+  });
+};
