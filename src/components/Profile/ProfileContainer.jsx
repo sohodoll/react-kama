@@ -2,9 +2,11 @@ import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
 import { getUserProfile } from '../../redux/profileReducer';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { WithAuthRedirect } from '../../hoc/WithAuthRedirect';
+import { compose } from 'redux';
 
-function withRouter(Component) {
+export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     let location = useLocation();
     let navigate = useNavigate();
@@ -20,14 +22,16 @@ export class ProfileContainerAPI extends React.Component {
   }
 
   render() {
+    if (!this.props.isAuth) {
+      return <Navigate to='/login' />;
+    }
     return <Profile {...this.props} profile={this.props.profile} />;
   }
 }
 
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
+  isAuth: state.auth.isAuth,
 });
 
-const withURLDatProfileContainer = withRouter(ProfileContainerAPI);
-
-export const ProfileContainer = connect(mapStateToProps, { getUserProfile })(withURLDatProfileContainer);
+export const ProfileContainer = compose(connect(mapStateToProps, { getUserProfile }), WithAuthRedirect, withRouter)(Profile);
