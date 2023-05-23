@@ -14,7 +14,8 @@ const App = (props) => {
       <HeaderContainer />
       <Navbar state={props.state.sidebar} />
       <Routes>
-        <Route path='/profile/:id?' element={<ProfileContainer />}></Route>
+        <Route path='/profile/' element={<ProfileContainer />}></Route>
+        <Route path='/profile/:id' element={<ProfileContainer />}></Route>
         <Route path='/dialogs/' element={<DialogsContainer />}></Route>
         <Route path='/dialogs/:id' element={<DialogsContainer />}></Route>
         <Route path='/users' element={<UsersContainer />}></Route>
