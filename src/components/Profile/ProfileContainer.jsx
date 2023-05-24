@@ -30,16 +30,7 @@ export class ProfileContainerAPI extends React.Component {
     if (!this.props.isAuth) {
       return <Navigate to='/login' />;
     }
-    return (
-      <Profile
-        {...this.props}
-        profile={this.props.profile}
-        status={this.props.status}
-        updateStatus={this.props.updateStatus}
-        getStatus={this.props.getStatus}
-        userId={this.props.router.params.id}
-      />
-    );
+    return <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus} />;
   }
 }
 
