@@ -2,7 +2,6 @@ import { usersAPI, profileAPI } from '../api/api';
 
 /* eslint-disable default-case */
 const ADD_POST = 'ADD-POST';
-const UPDATE_MESSAGE = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -23,7 +22,6 @@ export let friendsData = [
 export const profileReducer = (
   state = {
     posts: postsData,
-    newPostText: 'Write something!',
     profile: null,
     status: '',
   },
@@ -33,21 +31,13 @@ export const profileReducer = (
     case ADD_POST: {
       let newPost = {
         id: 5,
-        message: state.newPostText,
+        message: action.newPostText,
         likesCount: 0,
       };
 
       return {
         ...state,
         posts: [...state.posts, newPost],
-        newPostText: '',
-      };
-    }
-
-    case UPDATE_MESSAGE: {
-      return {
-        ...state,
-        newPostText: action.newPostText,
       };
     }
 
@@ -70,14 +60,9 @@ export const profileReducer = (
   }
 };
 
-export const addPostActionCreator = () => ({ type: ADD_POST });
+export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostText });
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
 export const setStatus = (status) => ({ type: SET_STATUS, status });
-
-export const updateNewPostTextActionCreator = (text) => ({
-  type: UPDATE_MESSAGE,
-  newPostText: text,
-});
 
 export const getUserProfile = (userId) => (dispatch) => {
   if (!userId) {
