@@ -6,6 +6,7 @@ import { usersReducer } from './usersReducer';
 import { authReducer } from './authReducer';
 import thunkMiddleware from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
+import { appReducer } from './appReducer';
 
 export let messagesData = [
   { id: 1, message: 'Hi' },
@@ -45,6 +46,7 @@ const reducers = combineReducers({
   usersPage: usersReducer,
   auth: authReducer,
   form: formReducer,
+  app: appReducer,
 });
 
 export const store = createStore(reducers, applyMiddleware(thunkMiddleware));

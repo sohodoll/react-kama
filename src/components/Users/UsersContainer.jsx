@@ -64,6 +64,5 @@ export const UsersContainer = compose(
     toggleFollowingProgress,
     getUsers,
   }),
-  WithAuthRedirect,
   withRouter
 )(UsersAPIComponent);
