@@ -6,7 +6,7 @@ import { Preloader } from '../Preloader/Preloader';
 import { compose } from 'redux';
 import { withRouter } from '../Profile/ProfileContainer';
 import {
-  selectUsers,
+  selectUsersSuper,
   getCurrentPage,
   getFollowingInProgress,
   getIsFetching,
@@ -65,7 +65,7 @@ class UsersAPIComponent extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: selectUsers(state),
+    users: selectUsersSuper(state),
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
