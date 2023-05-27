@@ -106,7 +106,7 @@ export const toggleFollowingProgress = (isFetching, userID) => ({ type: TOGGLE_I
 
 export const getUsers = (currentPage, pageSize) => (dispatch) => {
   dispatch(setIsFetching(true));
-
+  dispatch(setCurrentPage(currentPage));
   usersAPI.getUsers(currentPage, pageSize).then((data) => {
     dispatch(setIsFetching(false));
     dispatch(setUsers(data.items));
