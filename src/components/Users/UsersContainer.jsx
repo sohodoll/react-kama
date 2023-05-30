@@ -40,6 +40,8 @@ class UsersAPIComponent extends React.Component {
           <Users
             onPageChange={this.onPageChange}
             currentPage={this.props.currentPage}
+            totalUsersCount={this.props.totalUsersCount}
+            pageSize={this.props.pageSize}
             users={this.props.users}
             unfollow={this.props.unfollow}
             follow={this.props.follow}

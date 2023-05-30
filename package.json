@@ -21,8 +21,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=node",
+    "eject": "react-scripts eject",
+    "debug": "react-scripts --inspect-brk start"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-leaflet|@react-leaflet|d3-*|axios))"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   },
   "eslintConfig": {
     "extends": [
