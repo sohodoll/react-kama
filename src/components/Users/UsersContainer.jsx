@@ -4,7 +4,7 @@ import { Users } from './Users';
 import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsers } from '../../redux/usersReducer';
 import { Preloader } from '../Preloader/Preloader';
 import { compose } from 'redux';
-import { withRouter } from '../Profile/ProfileContainer';
+import { withRouter } from '../../utils/withRouter';
 import {
   selectUsersSuper,
   getCurrentPage,

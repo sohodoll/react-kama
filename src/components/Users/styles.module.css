@@ -9,3 +9,14 @@
 .loading {
   width: 20px;
 }
+
+.paginationWrapper {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.pagination {
+  display: flex;
+  gap: 5px;
+}

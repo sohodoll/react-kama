@@ -21,6 +21,31 @@ describe('status renders', () => {
     const component = create(<ProfileStatus status='it-kamasutra.com' />);
     const root = component.root;
     const span = root.findByType('span');
-    expect(span.children[0]).toBe('it-kamasutra.com ');
+    expect(span.children[0]).toBe('it-kamasutra.com');
+  });
+
+  test('input should be displayed in edit mode', () => {
+    const component = create(<ProfileStatus status='it-kamasutra.com' />);
+    const root = component.root;
+    let span = root.findByType('span');
+
+    span.props.onClick();
+
+    const input = root.findByType('input');
+
+    expect(input).toBeDefined();
+    expect(() => {
+      span = root.findByType('span');
+    }).toThrow();
+  });
+
+  test('callback should be called', () => {
+    const mockCallback = jest.fn();
+    const component = create(<ProfileStatus status='it-kamasutra.com' updateStatus={mockCallback} />);
+    const instance = component.getInstance();
+
+    instance.toggleEditMode();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
   });
 });
