@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { initializeApp } from './redux/appReducer';
 import { compose } from 'redux';
 import { Preloader } from './components/Preloader/Preloader';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/reduxStore';
 
