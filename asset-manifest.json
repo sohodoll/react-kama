@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/react-kama/static/css/main.c25db980.css",
+    "main.js": "/react-kama/static/js/main.a458f5ca.js",
+    "static/css/672.aa30fac8.chunk.css": "/react-kama/static/css/672.aa30fac8.chunk.css",
+    "static/js/672.48bd088f.chunk.js": "/react-kama/static/js/672.48bd088f.chunk.js",
+    "static/css/815.47e53249.chunk.css": "/react-kama/static/css/815.47e53249.chunk.css",
+    "static/js/815.cd1da361.chunk.js": "/react-kama/static/js/815.cd1da361.chunk.js",
+    "index.html": "/react-kama/index.html",
+    "main.c25db980.css.map": "/react-kama/static/css/main.c25db980.css.map",
+    "main.a458f5ca.js.map": "/react-kama/static/js/main.a458f5ca.js.map",
+    "672.aa30fac8.chunk.css.map": "/react-kama/static/css/672.aa30fac8.chunk.css.map",
+    "672.48bd088f.chunk.js.map": "/react-kama/static/js/672.48bd088f.chunk.js.map",
+    "815.47e53249.chunk.css.map": "/react-kama/static/css/815.47e53249.chunk.css.map",
+    "815.cd1da361.chunk.js.map": "/react-kama/static/js/815.cd1da361.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c25db980.css",
+    "static/js/main.a458f5ca.js"
+  ]
+}
