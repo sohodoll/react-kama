@@ -56,7 +56,7 @@ export const AppContainer = compose(connect(mapStateToProps, { initializeApp }),
 
 export const SamuraiJSApp = (props) => {
   return (
-    <Router>
+    <Router basename='/'>
       <Provider store={store}>
         <AppContainer state={store.getState()} />
       </Provider>
