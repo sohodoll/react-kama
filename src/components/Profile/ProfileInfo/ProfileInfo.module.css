@@ -5,3 +5,7 @@
 .icon {
   width: 30px;
 }
+
+.formSummaryError {
+  color: red;
+}

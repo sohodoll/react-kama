@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import { getUserProfile, getStatus, updateStatus } from '../../redux/profileReducer';
+import { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile } from '../../redux/profileReducer';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { WithAuthRedirect } from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
@@ -25,12 +25,21 @@ const ProfileContainerAPI = (props) => {
     }
     props.getUserProfile(userId);
     props.getStatus(userId);
-  }, []);
+  }, [props.router.params.id]);
 
   if (!props.isAuth) {
     return <Navigate to='/login' />;
   }
-  return <Profile {...props} profile={props.profile} status={props.status} updateStatus={props.updateStatus} />;
+  return (
+    <Profile
+      {...props}
+      profile={props.profile}
+      status={props.status}
+      updateStatus={props.updateStatus}
+      isOwner={!props.router.params.id}
+      savePhoto={props.savePhoto}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({
@@ -41,7 +50,7 @@ const mapStateToProps = (state) => ({
 });
 
 export const ProfileContainer = compose(
-  connect(mapStateToProps, { getUserProfile, getStatus, updateStatus }),
+  connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile }),
   withRouter,
   WithAuthRedirect
 )(ProfileContainerAPI);
