@@ -90,7 +90,6 @@ export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status });
 export const deletePost = (postId) => ({ type: DELETE_POST, postId });
 const setPhoto = (photos) => ({ type: SAVE_PHOTO, photos });
-const setProfile = (profile) => ({ type: SAVE_PROFILE, profile });
 
 export const getUserProfile = (userId) => (dispatch) => {
   if (!userId) {
