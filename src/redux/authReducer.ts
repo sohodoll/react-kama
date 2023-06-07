@@ -5,17 +5,20 @@ const SET_USER_DATA = 'SET_USER_DATA';
 const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL';
 
 const initialState = {
-  userId: null,
-  email: null,
-  login: null,
-  isAuth: false,
-  captchaUrl: null,
+  userId: null as number | null,
+  email: null as string | null,
+  login: null as string | null,
+  isAuth: false as boolean,
+  captchaUrl: null as string | null,
 };
 
-export const authReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState;
+
+export const authReducer = (state = initialState, action): InitialStateType => {
   switch (action.type) {
     case SET_USER_DATA: {
       return {
+        asd: 'asd',
         ...state,
         ...action.payload,
       };
@@ -33,8 +36,29 @@ export const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, payload: { userId, email, login, isAuth } });
-export const setCaptchaUrl = (captchaUrl) => ({ type: SET_CAPTCHA_URL, payload: { captchaUrl } });
+export type SetUserDataActionPayloadType = {
+  userId: number | null;
+  email: string | null;
+  login: string | null;
+  isAuth: boolean;
+};
+
+export type SetUserDataActionType = {
+  type: typeof SET_USER_DATA;
+  payload: SetUserDataActionPayloadType;
+};
+
+export const setUserData = (userId: number, email: string, login: string, isAuth: boolean): SetUserDataActionType => ({
+  type: SET_USER_DATA,
+  payload: { userId, email, login, isAuth },
+});
+
+export type SetCaptchaUrlActionType = {
+  type: typeof SET_CAPTCHA_URL;
+  payload: { captchaUrl: string };
+};
+
+export const setCaptchaUrl = (captchaUrl: string): SetCaptchaUrlActionType => ({ type: SET_CAPTCHA_URL, payload: { captchaUrl } });
 
 export const getAuthUserData = () => async (dispatch) => {
   const response = await usersAPI.getLoginStatus();
@@ -46,7 +70,7 @@ export const getAuthUserData = () => async (dispatch) => {
 };
 
 export const login =
-  (email, password, rememberMe, captcha = 'null') =>
+  (email: string, password: string, rememberMe: boolean, captcha = 'null') =>
   async (dispatch) => {
     console.log(captcha);
     const response = await usersAPI.login(email, password, rememberMe, captcha);
