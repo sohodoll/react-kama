@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
 import { Preloader } from '../../Preloader/Preloader';
-import { ProfileStatusWithHooks } from './ProfileStatusWithHooks';
 import { ProfileDataForm } from './ProfileDataForm';
+import { ProfileStatus } from './ProfileStatus';
 
 const ProfileInfo = (props) => {
   const [editMode, setEditMode] = React.useState(false);
@@ -67,7 +67,7 @@ const ProfileInfo = (props) => {
           <ProfileData profile={props.profile} isOwner={props.isOwner} goEditMode={() => setEditMode(true)} />
         )}
         <p>
-          Status: <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
+          Status: <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
         </p>
       </div>
     </div>

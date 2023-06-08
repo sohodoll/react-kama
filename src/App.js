@@ -49,7 +49,7 @@ class App extends React.Component {
             <Route path='/profile/:id' element={<ProfileContainer />}></Route>
             <Route path='/dialogs/' element={<DialogsContainer />}></Route>
             <Route path='/dialogs/:id' element={<DialogsContainer />}></Route>
-            <Route path='/users' element={<UsersContainer />}></Route>
+            <Route path='/users' element={<UsersContainer pageTitle={'Самураи'} />}></Route>
             <Route path='/login' element={<Login />}></Route>
           </Routes>
         </Suspense>
