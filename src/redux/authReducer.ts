@@ -1,5 +1,5 @@
 import { stopSubmit } from 'redux-form';
-import { securityAPI, usersAPI } from '../api/api';
+import { ResultCodesEnums, ResultCodesEnumsWithCaptcha, securityAPI, usersAPI } from '../api/api';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL';
@@ -63,7 +63,7 @@ export const setCaptchaUrl = (captchaUrl: string): SetCaptchaUrlActionType => ({
 export const getAuthUserData = () => async (dispatch) => {
   const response = await usersAPI.getLoginStatus();
 
-  if (response.resultCode === 0) {
+  if (response.resultCode === ResultCodesEnums.Success) {
     const { id, email, login } = response.data;
     dispatch(setUserData(id, email, login, true));
   }
@@ -78,7 +78,7 @@ export const login =
     if (response.resultCode === 0) {
       dispatch(getAuthUserData());
     } else {
-      if (response.resultCode === 10) {
+      if (response.resultCode === ResultCodesEnumsWithCaptcha.CaptchaIsRequired) {
         dispatch(getCaptchaUrl());
       }
 

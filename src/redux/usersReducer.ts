@@ -1,6 +1,8 @@
 import { usersAPI } from '../api/api';
 import { UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/objectHelpers';
+import { AppStateType } from './reduxStore';
+import { ThunkAction } from 'redux-thunk';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -21,7 +23,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState;
 
-export const usersReducer = (state = initialState, action): InitialStateType => {
+export const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
     case FOLLOW: {
       return {
@@ -116,6 +118,15 @@ type ToggleFollowingProgressType = {
   userID: number;
 };
 
+type ActionsType =
+  | FollowSuccessType
+  | UnfollowSuccessType
+  | SetUsersType
+  | SetCurrentPageType
+  | SetTotalUsersCountType
+  | SetIsFetchingType
+  | ToggleFollowingProgressType;
+
 export const followSuccess = (userID: number): FollowSuccessType => ({ type: FOLLOW, userID });
 export const unfollowSuccess = (userID: number): UnfollowSuccessType => ({ type: UNFOLLOW, userID });
 export const setUsers = (users: UserType[]): SetUsersType => ({ type: SET_USERS, users });
@@ -130,32 +141,40 @@ export const toggleFollowingProgress = (isFetching: boolean, userID: number): To
 
 //THUNKS
 
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
-  dispatch(setIsFetching(true));
-  dispatch(setCurrentPage(currentPage));
-  usersAPI.getUsers(currentPage, pageSize).then((data) => {
-    dispatch(setIsFetching(false));
-    dispatch(setUsers(data.items));
-    dispatch(setTotalUsersCount(data.totalCount));
-  });
-};
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
 
-export const follow = (userID: number) => (dispatch) => {
-  dispatch(toggleFollowingProgress(true, userID));
-  usersAPI.followUser(userID).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(followSuccess(userID));
-    }
-    dispatch(toggleFollowingProgress(false, userID));
-  });
-};
+export const getUsers =
+  (currentPage: number, pageSize: number): ThunkType =>
+  async (dispatch) => {
+    dispatch(setIsFetching(true));
+    dispatch(setCurrentPage(currentPage));
+    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+      dispatch(setIsFetching(false));
+      dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
+    });
+  };
 
-export const unfollow = (userID: number) => (dispatch) => {
-  dispatch(toggleFollowingProgress(true, userID));
-  usersAPI.unfollowUser(userID).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(unfollowSuccess(userID));
-    }
-    dispatch(toggleFollowingProgress(false, userID));
-  });
-};
+export const follow =
+  (userID: number): ThunkType =>
+  async (dispatch, getState) => {
+    dispatch(toggleFollowingProgress(true, userID));
+    usersAPI.followUser(userID).then((data) => {
+      if (data.resultCode === 0) {
+        dispatch({ type: FOLLOW, userID });
+      }
+      dispatch(toggleFollowingProgress(false, userID));
+    });
+  };
+
+export const unfollow =
+  (userID: number): ThunkType =>
+  async (dispatch) => {
+    dispatch(toggleFollowingProgress(true, userID));
+    usersAPI.unfollowUser(userID).then((data) => {
+      if (data.resultCode === 0) {
+        dispatch(unfollowSuccess(userID));
+      }
+      dispatch(toggleFollowingProgress(false, userID));
+    });
+  };
