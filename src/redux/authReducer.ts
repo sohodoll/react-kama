@@ -1,5 +1,7 @@
 import { stopSubmit } from 'redux-form';
 import { ResultCodesEnums, ResultCodesEnumsWithCaptcha, securityAPI, usersAPI } from '../api/api';
+import { AppStateType } from './reduxStore';
+import { ThunkAction } from 'redux-thunk';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL';
@@ -58,9 +60,12 @@ export type SetCaptchaUrlActionType = {
   payload: { captchaUrl: string };
 };
 
+type ActionsType = SetUserDataActionType | SetCaptchaUrlActionType;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
+
 export const setCaptchaUrl = (captchaUrl: string): SetCaptchaUrlActionType => ({ type: SET_CAPTCHA_URL, payload: { captchaUrl } });
 
-export const getAuthUserData = () => async (dispatch) => {
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
   const response = await usersAPI.getLoginStatus();
 
   if (response.resultCode === ResultCodesEnums.Success) {
@@ -70,7 +75,7 @@ export const getAuthUserData = () => async (dispatch) => {
 };
 
 export const login =
-  (email: string, password: string, rememberMe: boolean, captcha = 'null') =>
+  (email: string, password: string, rememberMe: boolean, captcha = 'null'): ThunkType =>
   async (dispatch) => {
     console.log(captcha);
     const response = await usersAPI.login(email, password, rememberMe, captcha);
@@ -87,7 +92,7 @@ export const login =
     }
   };
 
-export const logout = () => async (dispatch) => {
+export const logout = (): ThunkType => async (dispatch) => {
   const response = await usersAPI.logout();
 
   if (response.data.resultCode === 0) {
@@ -95,7 +100,7 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const getCaptchaUrl = () => async (dispatch) => {
+export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const response = await securityAPI.getCaptchaUrl();
   const captchaUrl = response.url;
 

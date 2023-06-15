@@ -1,6 +1,15 @@
 import styles from './styles.module.css';
 
-const FormControl = ({ input, meta, ...props }) => {
+type FormProps = {
+  input: any;
+  meta: {
+    touched: boolean;
+    error: string;
+  };
+  children: React.ReactNode;
+};
+
+const FormControl = ({ input, meta, ...props }: FormProps) => {
   const hasError = meta.touched && meta.error;
   return (
     <div className={styles.formControl + ' ' + (hasError ? styles.error : '')}>
@@ -10,7 +19,7 @@ const FormControl = ({ input, meta, ...props }) => {
   );
 };
 
-export const TextArea = (props) => {
+export const TextArea = (props: FormProps) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
@@ -19,7 +28,7 @@ export const TextArea = (props) => {
   );
 };
 
-export const Input = (props) => {
+export const Input = (props: FormProps) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
