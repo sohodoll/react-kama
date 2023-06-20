@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { Users } from './Users';
-import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsers } from '../../redux/usersReducer';
+import { follow, unfollow, getUsers, actions } from '../../redux/usersReducer';
 import { Preloader } from '../Preloader/Preloader';
 import { compose } from 'redux';
 import { withRouter } from '../../utils/withRouter';
@@ -104,8 +104,8 @@ export const UsersContainer = compose<React.Component>(
   connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     follow,
     unfollow,
-    setCurrentPage,
-    toggleFollowingProgress,
+    setCurrentPage: actions.setCurrentPage,
+    toggleFollowingProgress: actions.toggleFollowingProgress,
     getUsers,
   }),
   withRouter
