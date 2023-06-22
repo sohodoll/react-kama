@@ -102,7 +102,7 @@ export const logout = (): ThunkType => async (dispatch) => {
 
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const response = await securityAPI.getCaptchaUrl();
-  const captchaUrl = response.url;
+  const captchaUrl = response.data.url;
 
   dispatch(setCaptchaUrl(captchaUrl));
 };
