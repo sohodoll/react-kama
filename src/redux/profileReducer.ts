@@ -11,6 +11,7 @@ const postsData = [
   { id: 4, message: "It's my first post!", likesCount: 12 },
   { id: 5, message: "It's my first post!", likesCount: 11 },
 ] as Array<PostType>;
+
 const initialState = {
   posts: postsData,
   profile: null as ProfileType | null,
