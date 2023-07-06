@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { ComponentType, FC, Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import { Route, Routes } from 'react-router-dom';
@@ -12,15 +12,18 @@ import { compose } from 'redux';
 import { Preloader } from './components/Preloader/Preloader';
 import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './redux/reduxStore';
+import { AppStateType, store } from './redux/reduxStore';
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() =>
   import('./components/Profile/ProfileContainer').then((module) => ({ default: module.ProfileContainer }))
 );
 
-class App extends React.Component {
-  catchAllUnhandledErrors = (promiseRejectionEvent) => {
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = { initializeApp: () => void };
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
+  catchAllUnhandledErrors = (promiseRejectionEvent: PromiseRejectionEvent) => {
     alert(promiseRejectionEvent);
     console.error(promiseRejectionEvent);
   };
@@ -42,14 +45,14 @@ class App extends React.Component {
     return (
       <div className='app-wrapper'>
         <HeaderContainer />
-        <Navbar state={this.props.state.sidebar} />
+        <Navbar state={this.props.sidebar} />
         <Suspense fallback={<div>Loading</div>}>
           <Routes>
             <Route path='/profile/' element={<ProfileContainer />}></Route>
             <Route path='/profile/:id' element={<ProfileContainer />}></Route>
             <Route path='/dialogs/' element={<DialogsContainer />}></Route>
             <Route path='/dialogs/:id' element={<DialogsContainer />}></Route>
-            <Route path='/users' element={<UsersContainer pageTitle={'Самураи'} />}></Route>
+            <Route path='/users' element={<UsersContainer />}></Route>
             <Route path='/login' element={<Login />}></Route>
           </Routes>
         </Suspense>
@@ -58,17 +61,18 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
+  sidebar: state.sidebar,
 });
 
-export const AppContainer = compose(connect(mapStateToProps, { initializeApp }), withRouter)(App);
+export const AppContainer = compose<ComponentType>(connect(mapStateToProps, { initializeApp }), withRouter)(App);
 
-export const SamuraiJSApp = (props) => {
+export const SamuraiJSApp: FC = () => {
   return (
     <Router basename='/'>
       <Provider store={store}>
-        <AppContainer state={store.getState()} />
+        <AppContainer />
       </Provider>
     </Router>
   );
