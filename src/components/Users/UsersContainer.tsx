@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { Component, ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import { Users } from './Users';
 import { follow, unfollow, getUsers, actions } from '../../redux/usersReducer';
 import { Preloader } from '../Preloader/Preloader';

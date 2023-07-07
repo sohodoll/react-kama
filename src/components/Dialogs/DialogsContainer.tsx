@@ -14,8 +14,8 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 const DialogsContainer = compose<ComponentType>(
-  WithAuthRedirect,
-  connect(mapStateToProps, { sendMessage: actions.sendMessageCreator })
+  connect(mapStateToProps, { sendMessage: actions.sendMessageCreator }),
+  WithAuthRedirect
 )(Dialogs);
 
 export default DialogsContainer;
