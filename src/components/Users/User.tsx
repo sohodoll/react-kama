@@ -1,7 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.css';
+import { UserType } from '../../types/types';
+import { FC } from 'react';
 
-export const User = ({ user, followingInProgress, unfollow, follow }) => {
+type PropsType = {
+  user: UserType;
+  followingInProgress: Array<number>;
+  unfollow: (userId: number) => void;
+  follow: (userId: number) => void;
+};
+
+export const User: FC<PropsType> = ({ user, followingInProgress, unfollow, follow }) => {
   const URL = 'https://images.thevoicemag.ru/upload/img_cache/522/522db8cc3ceff99287a983d9977b4980_ce_2111x1408x0x165_cropped_666x444.jpg';
   return (
     <div>
