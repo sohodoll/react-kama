@@ -1,45 +1,45 @@
-import React, { ComponentType, FC, Suspense } from 'react';
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import { Route, Routes } from 'react-router-dom';
-import { UsersContainer } from './components/Users/UsersContainer';
-import { withRouter } from './utils/withRouter';
-import { HeaderContainer } from './components/Header/HeaderContainer';
-import { Login } from './components/Login/Login';
-import { connect } from 'react-redux';
-import { initializeApp } from './redux/appReducer';
-import { compose } from 'redux';
-import { Preloader } from './components/Preloader/Preloader';
-import { HashRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { AppStateType, store } from './redux/reduxStore';
+import React, { ComponentType, FC, Suspense } from 'react'
+import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import { Route, Routes } from 'react-router-dom'
+import { UsersContainer } from './components/Users/UsersContainer'
+import { withRouter } from './utils/withRouter'
+import { HeaderContainer } from './components/Header/HeaderContainer'
+import { Login } from './components/Login/Login'
+import { connect } from 'react-redux'
+import { initializeApp } from './redux/appReducer'
+import { compose } from 'redux'
+import { Preloader } from './components/Preloader/Preloader'
+import { HashRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { AppStateType, store } from './redux/reduxStore'
 
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() =>
   import('./components/Profile/ProfileContainer').then((module) => ({ default: module.ProfileContainer }))
-);
+)
 
-type MapPropsType = ReturnType<typeof mapStateToProps>;
-type DispatchPropsType = { initializeApp: () => void };
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = { initializeApp: () => void }
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   catchAllUnhandledErrors = (promiseRejectionEvent: PromiseRejectionEvent) => {
-    alert(promiseRejectionEvent);
-    console.error(promiseRejectionEvent);
-  };
+    alert(promiseRejectionEvent)
+    console.error(promiseRejectionEvent)
+  }
 
   componentDidMount() {
-    this.props.initializeApp();
-    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors);
+    this.props.initializeApp()
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors);
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   }
 
   render() {
     if (!this.props.initialized) {
-      return <Preloader />;
+      return <Preloader />
     }
 
     return (
@@ -57,23 +57,27 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
           </Routes>
         </Suspense>
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
   sidebar: state.sidebar,
-});
+})
 
-export const AppContainer = compose<ComponentType>(connect(mapStateToProps, { initializeApp }), withRouter)(App);
+export const AppContainer = compose<ComponentType>(connect(mapStateToProps, { initializeApp }), withRouter)(App)
 
-export const SamuraiJSApp: FC = () => {
+type PropsType = {
+  store: typeof store
+}
+
+export const SamuraiJSApp: FC<PropsType> = () => {
   return (
     <Router basename='/'>
       <Provider store={store}>
         <AppContainer />
       </Provider>
     </Router>
-  );
-};
+  )
+}
