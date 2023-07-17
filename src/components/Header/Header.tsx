@@ -1,8 +1,17 @@
-import React from 'react';
-import s from './Header.module.css';
-import { NavLink } from 'react-router-dom';
+import React, { FC } from 'react'
+import s from './Header.module.css'
+import { NavLink } from 'react-router-dom'
 
-const Header = (props) => {
+export type MapPropsType = {
+  isAuth: boolean
+  login: string | null
+}
+
+export type DispatchPropsType = {
+  logout: () => void
+}
+
+const Header: FC<MapPropsType & DispatchPropsType> = (props) => {
   return (
     <header className={s.header}>
       <img src='https://ru-designhelp.livejournal.com/favicon.ico' alt='sad' />
@@ -17,7 +26,7 @@ const Header = (props) => {
         )}
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

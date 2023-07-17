@@ -1,8 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
-import s from './Post.module.css';
+import s from './Post.module.css'
 
-const Post = (props) => {
+type PropsType = {
+  message: string
+  likesCount: number
+}
+
+const Post = (props: PropsType) => {
   return (
     <div className={s.item}>
       <img src='https://cdn-icons-png.flaticon.com/128/3082/3082351.png' />
@@ -13,7 +17,7 @@ const Post = (props) => {
       <span className={s.text}>{props.message}</span>
       <div></div>
     </div>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post

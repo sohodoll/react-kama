@@ -1,9 +1,18 @@
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Input, TextArea } from '../../FormsControls/FormsControls';
 import { requiredField } from '../../../utils/validators/validators';
 import styles from './ProfileInfo.module.css';
+import { FC } from 'react';
+import { ProfileType } from '../../../types/types';
 
-const ProfileData = ({ handleSubmit, error, profileData }) => {
+type PropsType = {
+  handleSubmit: any;
+  error: any;
+  profileData: any;
+  profile: ProfileType;
+};
+
+const ProfileData: FC<InjectedFormProps<ProfileType, PropsType> & PropsType> = ({ handleSubmit, error, profileData }: PropsType) => {
   return (
     <form onSubmit={handleSubmit}>
       <button>Save</button>

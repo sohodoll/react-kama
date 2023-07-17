@@ -37,12 +37,15 @@ const MyPostsForm = (props) => {
 
 const ReduxMyPostsForm = reduxForm<AddPostValuesType, AddPostOwnProps>({ form: 'myPosts' })(MyPostsForm);
 
-type PropsType = {
+export type MapPropsType = {
   posts: Array<PostType>;
+};
+
+export type DispatchPropsType = {
   addPost: (newPostText: string) => void;
 };
 
-const MyPostsComponent: FC<PropsType> = (props) => {
+const MyPostsComponent: FC<MapPropsType & DispatchPropsType> = (props) => {
   let postsElements = props.posts.map((p) => <Post message={p.message} likesCount={p.likesCount} key={p.id} />);
 
   const addPost = (values) => {

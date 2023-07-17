@@ -1,11 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
 import { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile } from '../../redux/profileReducer';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { WithAuthRedirect } from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
+
+export interface RouteComponentProps<P> {
+  match: match<P>;
+  staticContext?: any;
+}
+
+export interface match<P> {
+  params: P;
+  isExact: boolean;
+  path: string;
+  url: string;
+}
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -17,7 +29,7 @@ function withRouter(Component) {
   return ComponentWithRouterProp;
 }
 
-const ProfileContainerAPI = (props) => {
+const ProfileContainerAPI: FC<MapStatePropsType & DispatchPropsType & PathParamsType> = (props) => {
   useEffect(() => {
     let userId = props.router.params.id;
     if (!userId) {
@@ -48,6 +60,22 @@ const mapStateToProps = (state) => ({
   status: state.profilePage.status,
   authorizedUserId: state.auth.userId,
 });
+
+type MapStatePropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = {
+  getUserProfile: (userId: number) => void;
+  getStatus: (userId: number) => void;
+  updateStatus: (status: string) => void;
+  savePhoto: (file: File) => void;
+  saveProfile: (profile: any) => Promise<any>;
+};
+type PathParamsType = {
+  router: {
+    params: {
+      id: number;
+    };
+  };
+};
 
 export const ProfileContainer = compose(
   connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile }),

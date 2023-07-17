@@ -1,10 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import s from './Navbar.module.css';
-import { Link } from 'react-router-dom';
+import React, { FC } from 'react'
+import s from './Navbar.module.css'
+import { Link } from 'react-router-dom'
 
-const Navbar = (props) => {
-  const friends = props.state.friends.map((friend) => <div key={friend.id}>*{friend.name}</div>);
+type PropsType = {
+  state: any
+}
+
+const Navbar: FC<PropsType> = (props) => {
+  const friends = props.state.friends.map((friend) => <div key={friend.id}>*{friend.name}</div>)
   return (
     <>
       <nav className={s.nav}>
@@ -29,7 +33,7 @@ const Navbar = (props) => {
         <div className={s.friends}>{friends}</div>
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
