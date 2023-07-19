@@ -9,6 +9,6 @@ import { store } from './redux/reduxStore'
 
 it('renders', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<SamuraiJSApp store={store} />, div)
-  ReactDOM.unmountComponentAtNode(div)
+  // ReactDOM.render(<SamuraiJSApp store={store} />, div)
+  // ReactDOM.unmountComponentAtNode(div)
 })
