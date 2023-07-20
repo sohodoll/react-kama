@@ -13,8 +13,10 @@ type MeResponseDataType = {
 }
 
 export const usersAPI = {
-  getUsers: (page = 1, size = 10) => {
-    return instance.get<GetUsersItemsType>(`users?page=${page}&count=${size}`).then((response) => response.data)
+  getUsers: (page = 1, size = 10, term: string = '', friend: null | boolean = null) => {
+    return instance
+      .get<GetUsersItemsType>(`users?page=${page}&count=${size}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
+      .then((response) => response.data)
   },
   getUser: (userId = 2) => {
     return instance.get<ProfileType>(`profile/${userId}`).then((response) => response.data)
