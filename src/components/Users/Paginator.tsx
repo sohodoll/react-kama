@@ -11,7 +11,7 @@ type PaginatorProps = {
 }
 
 export const Paginator: FC<PaginatorProps> = ({ totalUsersCount, pageSize, onPageChange, currentPage }) => {
-  const pagesCount = Math.ceil(totalUsersCount / pageSize)
+  const pagesCount = Math.floor(totalUsersCount / pageSize)
   const pages = []
   const portionSize = 10
 

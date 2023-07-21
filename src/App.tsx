@@ -2,7 +2,7 @@ import React, { ComponentType, FC, Suspense } from 'react'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
-import { UsersContainer } from './components/Users/UsersContainer'
+import { UsersPage } from './components/Users/UsersContainer'
 import { withRouter } from './utils/withRouter'
 import { HeaderContainer } from './components/Header/HeaderContainer'
 import { Login } from './components/Login/Login'
@@ -52,7 +52,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
             <Route path='/profile/:id' element={<ProfileContainer />}></Route>
             <Route path='/dialogs/' element={<DialogsContainer />}></Route>
             <Route path='/dialogs/:id' element={<DialogsContainer />}></Route>
-            <Route path='/users' element={<UsersContainer />}></Route>
+            <Route path='/users' element={<UsersPage />}></Route>
             <Route path='/login' element={<Login />}></Route>
           </Routes>
         </Suspense>

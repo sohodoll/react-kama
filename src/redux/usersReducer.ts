@@ -1,7 +1,9 @@
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { usersAPI } from '../api/usersAPI'
 import { UserType } from '../types/types'
 import { updateObjectInArray } from '../utils/objectHelpers'
-import { BaseThunkType, InferActionsTypes } from './reduxStore'
+import { AppStateType, BaseThunkType, InferActionsTypes } from './reduxStore'
+import { Action, AnyAction } from 'redux'
 
 const initialState = {
   users: [] as Array<UserType>,
@@ -104,7 +106,7 @@ export const usersReducer = (state = initialState, action: ActionsType): Initial
 
 //THUNKS
 
-type ThunkType = BaseThunkType<ActionsType>
+export type ThunkType = BaseThunkType<ActionsType>
 
 export const getUsers =
   (currentPage: number, pageSize: number, filter: FilterType): ThunkType =>
