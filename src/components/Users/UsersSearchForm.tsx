@@ -1,6 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { FC, memo } from 'react'
 import { FilterType } from '../../redux/usersReducer'
+import { useSelector } from 'react-redux'
+import { getUsersFilters } from '../../redux/usersSelectors'
 
 const usersSearchFormValidate = (values) => {
   const errors = {}
@@ -27,9 +29,16 @@ export const UsersSearchForm: FC<UsersSearchFormProps> = memo(({ onFilterChanged
     setSubmitting(false)
   }
 
+  const filter = useSelector(getUsersFilters)
+
   return (
     <div>
-      <Formik initialValues={{ term: '', friend: null }} validate={usersSearchFormValidate} onSubmit={submit}>
+      <Formik
+        enableReinitialize
+        initialValues={{ term: filter.term, friend: filter.friend }}
+        validate={usersSearchFormValidate}
+        onSubmit={submit}
+      >
         {({ isSubmitting }) => (
           <Form>
             <Field type='text' name='term' />

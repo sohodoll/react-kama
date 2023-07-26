@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC } from 'react'
 import { Paginator } from './Paginator'
 import { User } from './User'
