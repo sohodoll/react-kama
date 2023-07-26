@@ -9,7 +9,7 @@ import {} from '../../utils/withRouter'
 import { getCurrentPage, getIsFetching, getPageSize, getUsersFilters } from '../../redux/usersSelectors'
 import { AppDispatch } from '../../redux/reduxStore'
 import { getUsers } from '../../redux/usersReducer'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom'
 
 export const UsersPage: FC = () => {
   const isFetching = useSelector(getIsFetching)
@@ -43,8 +43,17 @@ export const UsersPage: FC = () => {
   }, [])
 
   useEffect(() => {
-    const query = `?term=${filter.term}&friend=${filter.friend}&page=${currentPage}`
-    navigate(query)
+    const queryObj: any = {}
+
+    if (!!filter.term) queryObj.term = filter.term
+    if (filter.friend !== null) queryObj.friend = String(filter.friend)
+    if (currentPage !== 1) queryObj.page = String(currentPage)
+
+    const query = createSearchParams(queryObj)
+    navigate({
+      pathname: '/users',
+      search: `${query}`,
+    })
   }, [filter, navigate, currentPage])
 
   return (
