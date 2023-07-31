@@ -9,17 +9,13 @@ import { Provider } from 'react-redux'
 import { store } from './redux/reduxStore'
 import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
-import { Content, Header } from 'antd/es/layout/layout'
+import { Content } from 'antd/es/layout/layout'
+import HeaderComponent from './components/Header/Header'
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() =>
   import('./components/Profile/ProfileContainer').then((module) => ({ default: module.ProfileContainer }))
 )
-
-const items1: MenuProps['items'] = ['MyProfile', '2', '3'].map((key) => ({
-  key,
-  label: key,
-}))
 
 export type MenuItem = Required<MenuProps>['items'][number]
 
@@ -58,27 +54,14 @@ export const App: FC = () => {
     <Router basename='/'>
       <Provider store={store}>
         <Layout>
-          {/* <div className={s.item}>
-            <Link to='/profile'>Profile</Link>
-          </div>
-          <div className={`${s.item} ${s.active}`}>
-            <Link to='/dialogs'>Dialogs</Link>
-          </div>
-          <div className={`${s.item} ${s.active}`}>
-            <Link to='/users'>Users</Link>
-          </div> */}
-
-          <Header style={{ display: 'flex', alignItems: 'center' }}>
-            <div className='demo-logo' />
-            <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['2']} items={items1} />
-          </Header>
+          <HeaderComponent />
           <Layout>
             <Sider width={200} style={{ background: colorBgContainer }}>
               <Menu
                 mode='inline'
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 style={{ height: '100%', borderRight: 0 }}
+                defaultOpenKeys={['MyProfile', 'Developers']}
+                defaultSelectedKeys={['MyProfile']}
                 items={itemsSideMenu}
               />
             </Sider>
@@ -93,7 +76,6 @@ export const App: FC = () => {
                   padding: 24,
                   margin: 0,
                   minHeight: 280,
-                  background: colorBgContainer,
                 }}
               >
                 <Suspense fallback={<div>Loading</div>}>
