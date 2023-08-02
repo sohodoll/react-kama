@@ -11,6 +11,7 @@ import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import HeaderComponent from './components/Header/Header'
+import { ChatPage } from './pages/ChatPage/ChatPage'
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() =>
@@ -86,6 +87,7 @@ export const App: FC = () => {
                     <Route path='/dialogs/:id' element={<DialogsContainer />}></Route>
                     <Route path='/users' element={<UsersPage />}></Route>
                     <Route path='/login' element={<Login />}></Route>
+                    <Route path='/chat' element={<ChatPage />}></Route>
                   </Routes>
                 </Suspense>
               </Content>
