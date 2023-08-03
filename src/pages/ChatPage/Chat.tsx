@@ -1,12 +1,15 @@
 import { FC, useEffect, useState } from 'react'
-
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+import { Preloader } from '../../components/Preloader/Preloader'
 
 export type ChatMessageType = {
   message: string
   photo: string
   userId: number
   userName: string
+}
+
+type ChatProps = {
+  ws: WebSocket
 }
 
 const Message = ({ message }: { message: ChatMessageType }) => {
@@ -21,14 +24,20 @@ const Message = ({ message }: { message: ChatMessageType }) => {
   )
 }
 
-const Messages: FC = () => {
+const Messages: FC<ChatProps> = ({ ws }) => {
   const [messages, setMessages] = useState<ChatMessageType[]>([])
 
   useEffect(() => {
-    ws.addEventListener('message', (e) => {
+    const handleWs = (e) => {
       setMessages((prevMessages) => [...prevMessages, ...JSON.parse(e.data)])
-    })
-  }, [])
+    }
+
+    ws?.addEventListener('message', handleWs)
+
+    return () => {
+      ws?.removeEventListener('message', handleWs)
+    }
+  }, [ws])
 
   return (
     <div style={{ maxHeight: '600px', overflow: 'auto' }}>
@@ -39,12 +48,14 @@ const Messages: FC = () => {
   )
 }
 
-const AddMessageFrom: FC = () => {
+const AddMessageFrom: FC<ChatProps> = ({ ws }) => {
   const [message, setMessage] = useState('')
+  const [isReady, setIsReady] = useState(false)
 
   const sendMessage = (e) => {
     if (message) {
-      ws.send(message)
+      ws?.send(message)
+      setMessage('')
     }
   }
 
@@ -52,12 +63,26 @@ const AddMessageFrom: FC = () => {
     setMessage(e.currentTarget.value)
   }
 
+  useEffect(() => {
+    const handleWs = () => {
+      setIsReady(true)
+    }
+
+    ws?.addEventListener('open', handleWs)
+
+    return () => {
+      ws?.removeEventListener('open', handleWs)
+    }
+  }, [ws])
+
   return (
     <>
       <form action=''>
-        <textarea onChange={onMessageChange} name='' id='' cols={30} rows={1}></textarea>
+        <textarea value={message} onChange={onMessageChange} name='' id='' cols={30} rows={1}></textarea>
         <div>
-          <button onClick={sendMessage}>Send</button>
+          <button type={'button'} disabled={!isReady} onClick={sendMessage}>
+            Send
+          </button>
         </div>
       </form>
     </>
@@ -65,10 +90,56 @@ const AddMessageFrom: FC = () => {
 }
 
 export const Chat: FC = () => {
+  const [wsChannel, setWsChannel] = useState(null)
+  const [isOnline, setIsOnline] = useState(false)
+
+  useEffect(() => {
+    let newWs: WebSocket
+
+    const handleClose = () => {
+      setTimeout(() => {
+        createChannel()
+      }, 3000)
+    }
+    const createChannel = () => {
+      if (newWs !== null) {
+        newWs?.removeEventListener('close', handleClose)
+        newWs?.close()
+      }
+      newWs = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+
+      wsChannel?.addEventListener('close', () => {})
+      newWs.addEventListener('close', handleClose)
+      setWsChannel(newWs)
+    }
+
+    createChannel()
+    setIsOnline(true)
+
+    return () => {
+      newWs?.removeEventListener('close', () => {})
+      newWs?.close()
+      setIsOnline(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    wsChannel?.addEventListener('close', () => {
+      console.log('CLOSE WS')
+      setIsOnline(false)
+    })
+  }, [wsChannel])
+
   return (
     <div>
-      <Messages />
-      <AddMessageFrom />
+      {isOnline ? (
+        <>
+          <Messages ws={wsChannel} />
+          <AddMessageFrom ws={wsChannel} />
+        </>
+      ) : (
+        <Preloader />
+      )}
     </div>
   )
 }

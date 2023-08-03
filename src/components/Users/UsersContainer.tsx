@@ -38,7 +38,6 @@ export const UsersPage: FC = () => {
     if (params.get('friend')) {
       actualFilter = { ...actualFilter, friend: params.get('friend') === 'null' ? null : params.get('friend') === 'true' ? true : false }
     }
-    debugger
     dispatch(getUsers(actualPage, pageSize, actualFilter))
   }, [])
 
