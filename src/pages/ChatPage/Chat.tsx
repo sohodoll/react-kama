@@ -1,15 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useState } from 'react'
-import { Preloader } from '../../components/Preloader/Preloader'
+import { useDispatch, useSelector } from 'react-redux'
+import { startMessagesListening, stopMessagesListening, sendMessage } from '../../redux/chatReducer'
+import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 
 export type ChatMessageType = {
   message: string
   photo: string
   userId: number
   userName: string
-}
-
-type ChatProps = {
-  ws: WebSocket
 }
 
 const Message = ({ message }: { message: ChatMessageType }) => {
@@ -24,21 +23,11 @@ const Message = ({ message }: { message: ChatMessageType }) => {
   )
 }
 
-const Messages: FC<ChatProps> = ({ ws }) => {
-  const [messages, setMessages] = useState<ChatMessageType[]>([])
+type MessagesProps = {
+  messages: ChatMessageType[]
+}
 
-  useEffect(() => {
-    const handleWs = (e) => {
-      setMessages((prevMessages) => [...prevMessages, ...JSON.parse(e.data)])
-    }
-
-    ws?.addEventListener('message', handleWs)
-
-    return () => {
-      ws?.removeEventListener('message', handleWs)
-    }
-  }, [ws])
-
+const Messages: FC<MessagesProps> = ({ messages }) => {
   return (
     <div style={{ maxHeight: '600px', overflow: 'auto' }}>
       {messages.map((message, i) => {
@@ -48,39 +37,27 @@ const Messages: FC<ChatProps> = ({ ws }) => {
   )
 }
 
-const AddMessageFrom: FC<ChatProps> = ({ ws }) => {
+const AddMessageFrom: FC = () => {
   const [message, setMessage] = useState('')
-  const [isReady, setIsReady] = useState(false)
+  const dispatch: AppDispatch = useDispatch()
 
-  const sendMessage = (e) => {
-    if (message) {
-      ws?.send(message)
-      setMessage('')
-    }
+  const sendMessageHandler = (e) => {
+    if (!message) return
+
+    dispatch(sendMessage(message))
+    setMessage('')
   }
 
   const onMessageChange = (e) => {
     setMessage(e.currentTarget.value)
   }
 
-  useEffect(() => {
-    const handleWs = () => {
-      setIsReady(true)
-    }
-
-    ws?.addEventListener('open', handleWs)
-
-    return () => {
-      ws?.removeEventListener('open', handleWs)
-    }
-  }, [ws])
-
   return (
     <>
       <form action=''>
         <textarea value={message} onChange={onMessageChange} name='' id='' cols={30} rows={1}></textarea>
         <div>
-          <button type={'button'} disabled={!isReady} onClick={sendMessage}>
+          <button type={'button'} onClick={sendMessageHandler}>
             Send
           </button>
         </div>
@@ -90,56 +67,21 @@ const AddMessageFrom: FC<ChatProps> = ({ ws }) => {
 }
 
 export const Chat: FC = () => {
-  const [wsChannel, setWsChannel] = useState(null)
-  const [isOnline, setIsOnline] = useState(false)
+  const dispatch: AppDispatch = useDispatch()
+  const messages = useSelector((state: AppStateType) => state.chat.messages)
 
   useEffect(() => {
-    let newWs: WebSocket
-
-    const handleClose = () => {
-      setTimeout(() => {
-        createChannel()
-      }, 3000)
-    }
-    const createChannel = () => {
-      if (newWs !== null) {
-        newWs?.removeEventListener('close', handleClose)
-        newWs?.close()
-      }
-      newWs = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
-
-      wsChannel?.addEventListener('close', () => {})
-      newWs.addEventListener('close', handleClose)
-      setWsChannel(newWs)
-    }
-
-    createChannel()
-    setIsOnline(true)
+    dispatch(startMessagesListening())
 
     return () => {
-      newWs?.removeEventListener('close', () => {})
-      newWs?.close()
-      setIsOnline(false)
+      dispatch(stopMessagesListening())
     }
   }, [])
 
-  useEffect(() => {
-    wsChannel?.addEventListener('close', () => {
-      console.log('CLOSE WS')
-      setIsOnline(false)
-    })
-  }, [wsChannel])
-
   return (
     <div>
-      {isOnline ? (
-        <>
-          <Messages ws={wsChannel} />
-          <AddMessageFrom ws={wsChannel} />
-        </>
-      ) : (
-        <Preloader />
-      )}
+      <Messages messages={messages} />
+      <AddMessageFrom />
     </div>
   )
 }

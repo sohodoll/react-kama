@@ -7,6 +7,7 @@ import { authReducer } from './authReducer'
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
 import { appReducer } from './appReducer'
+import chatReducer from './chatReducer'
 
 export let messagesData = [
   { id: 1, message: 'Hi' },
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   form: formReducer,
   app: appReducer,
+  chat: chatReducer,
 })
 
 export type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never
