@@ -37,7 +37,9 @@ const Messages: FC<MessagesProps> = ({ messages }) => {
   )
 }
 
-const AddMessageFrom: FC = () => {
+type AddMessageProps = { status: 'pending' | 'ready' | 'error' }
+
+const AddMessageFrom: FC<AddMessageProps> = ({ status }) => {
   const [message, setMessage] = useState('')
   const dispatch: AppDispatch = useDispatch()
 
@@ -57,7 +59,7 @@ const AddMessageFrom: FC = () => {
       <form action=''>
         <textarea value={message} onChange={onMessageChange} name='' id='' cols={30} rows={1}></textarea>
         <div>
-          <button type={'button'} onClick={sendMessageHandler}>
+          <button disabled={status === 'pending'} type={'button'} onClick={sendMessageHandler}>
             Send
           </button>
         </div>
@@ -69,6 +71,7 @@ const AddMessageFrom: FC = () => {
 export const Chat: FC = () => {
   const dispatch: AppDispatch = useDispatch()
   const messages = useSelector((state: AppStateType) => state.chat.messages)
+  const status = useSelector((state: AppStateType) => state.chat.status)
 
   useEffect(() => {
     dispatch(startMessagesListening())
@@ -81,7 +84,7 @@ export const Chat: FC = () => {
   return (
     <div>
       <Messages messages={messages} />
-      <AddMessageFrom />
+      <AddMessageFrom status={status} />
     </div>
   )
 }
